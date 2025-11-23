@@ -1,3 +1,15 @@
+/* Placeholder for layout spacing */
+.placeholder {
+  width: 240px;
+  flex-shrink: 0;
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1);
+  
+  &.collapsed {
+    width: 68px;
+  }
+}
+
+/* Actual Sidebar */
 .sidebar {
   width: 240px;
   background: var(--bg-sidebar);
@@ -43,8 +55,10 @@
       display: none;
     }
 
+    /* Ensure menu group takes full width for hover target */
     .menuGroup {
       position: relative;
+      width: 100%;
     }
 
     .userButton {

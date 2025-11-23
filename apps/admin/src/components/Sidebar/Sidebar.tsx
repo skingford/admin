@@ -19,27 +19,45 @@ const menuGroups = [
   {
     title: '数据',
     icon: BarChart2,
-    items: []
+    items: [
+      { label: '数据概况', path: '/data/overview' },
+      { label: '访问分析', path: '/data/visit' },
+      { label: '来源分析', path: '/data/source' },
+    ]
   },
   {
     title: '基础功能',
     icon: Box,
-    items: []
+    items: [
+      { label: '账号信息', path: '/basic/info' },
+      { label: '成员管理', path: '/basic/members' },
+      { label: '功能设置', path: '/basic/settings' },
+    ]
   },
   {
     title: '支付与交易',
     icon: DollarSign,
-    items: []
+    items: [
+      { label: '微信支付', path: '/pay/wechat' },
+      { label: '订单管理', path: '/pay/orders' },
+      { label: '售后管理', path: '/pay/refunds' },
+    ]
   },
   {
     title: '行业能力',
     icon: Zap,
-    items: []
+    items: [
+      { label: '直播', path: '/industry/live' },
+      { label: '即时配送', path: '/industry/delivery' },
+    ]
   },
   {
     title: '推广与搜索',
     icon: ShoppingBag,
-    items: []
+    items: [
+      { label: '广告中心', path: '/promotion/ads' },
+      { label: '搜索服务', path: '/promotion/search' },
+    ]
   },
   {
     title: '开发与服务',
@@ -55,17 +73,24 @@ const menuGroups = [
   {
     title: '成长',
     icon: BarChart,
-    items: []
+    items: [
+      { label: '成长指引', path: '/growth/guide' },
+    ]
   },
   {
     title: '小程序码',
     icon: QrCode,
-    items: []
+    items: [
+      { label: '获取二维码', path: '/qrcode/get' },
+    ]
   },
   {
     title: '通知中心',
     icon: Bell,
-    items: []
+    items: [
+      { label: '系统通知', path: '/notice/system' },
+      { label: '服务通知', path: '/notice/service' },
+    ]
   }
 ];
 
@@ -74,6 +99,7 @@ export default function Sidebar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
+  const [popoverTop, setPopoverTop] = useState<number>(0);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleGroup = (title: string) => {
@@ -116,8 +142,16 @@ export default function Sidebar() {
           <div 
             key={group.title} 
             className={styles.menuGroup}
-            onMouseEnter={() => isCollapsed && setHoveredGroup(group.title)}
-            onMouseLeave={() => isCollapsed && setHoveredGroup(null)}
+            onMouseEnter={(e) => {
+              if (isCollapsed) {
+                setHoveredGroup(group.title);
+                const rect = e.currentTarget.getBoundingClientRect();
+                setPopoverTop(rect.top);
+              }
+            }}
+            onMouseLeave={() => {
+              if (isCollapsed) setHoveredGroup(null);
+            }}
           >
             <div 
               className={styles.menuTitle} 
@@ -153,7 +187,15 @@ export default function Sidebar() {
 
             {/* Floating Submenu (Collapsed Mode) */}
             {isCollapsed && hoveredGroup === group.title && (
-              <div className={clsx(styles.popover, styles.submenuPopover)}>
+              <div 
+                className={clsx(styles.popover, styles.submenuPopover)}
+                style={{
+                  position: 'fixed',
+                  top: popoverTop,
+                  left: 68 + 12, // Sidebar width + margin
+                  zIndex: 1000
+                }}
+              >
                 <div className={styles.submenuTitle}>{group.title}</div>
                 {(group.items && group.items.length > 0) ? (
                   <div className={styles.popoverMenu}>
