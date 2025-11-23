@@ -1,98 +1,171 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
+}
+
+.header {
+  margin-bottom: 1rem;
 }
 
 .title {
-  font-size: 1.875rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text-main);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
 .card {
-  background-color: var(--bg-surface);
+  background: var(--bg-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
   padding: 1.5rem;
-  border-radius: 1rem;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: var(--bg-surface-hover);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--icon-color);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.trend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
   
+  &[data-trend="up"] {
+    color: #34d399;
+    background: rgba(52, 211, 153, 0.1);
+  }
+  
+  &[data-trend="down"] {
+    color: #f472b6;
+    background: rgba(244, 114, 182, 0.1);
+  }
+}
+
+.cardContent {
   h3 {
     color: var(--text-secondary);
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
   }
   
   .value {
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 700;
     color: var(--text-main);
-    margin-bottom: 0.5rem;
-  }
-  
-  .trend {
-    font-size: 0.875rem;
-    color: #10b981; // Green
+    letter-spacing: -0.025em;
   }
 }
 
 .section {
   h2 {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: var(--text-main);
   }
 }
 
 .tableCard {
-  background-color: var(--bg-surface);
-  border-radius: 1rem;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
   
   table {
     width: 100%;
     border-collapse: collapse;
     
     th, td {
-      padding: 1rem 1.5rem;
+      padding: 1.25rem 1.5rem;
       text-align: left;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--glass-border);
     }
     
     th {
-      background-color: #f9fafb;
+      background: rgba(0, 0, 0, 0.2);
       font-weight: 600;
       color: var(--text-secondary);
       font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     
     tr:last-child td {
       border-bottom: none;
     }
     
+    tr {
+      transition: background 0.2s;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+    }
+    
     td {
       color: var(--text-main);
-      font-size: 0.875rem;
+      font-size: 0.95rem;
     }
   }
 }
 
 .status {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 0.25rem 0.75rem;
-  background-color: #d1fae5;
-  color: #065f46;
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
   border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
+  border: 1px solid rgba(52, 211, 153, 0.2);
 }

@@ -1,24 +1,58 @@
+import { Users, DollarSign, Activity, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 import styles from './Dashboard.module.scss';
 
 export default function Dashboard() {
   return (
     <div className={styles.dashboard}>
-      <h1 className={styles.title}>Dashboard</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Dashboard Overview</h1>
+        <p className={styles.subtitle}>Welcome back, here's what's happening today.</p>
+      </div>
+      
       <div className={styles.grid}>
         <div className={styles.card}>
-          <h3>Total Users</h3>
-          <p className={styles.value}>1,234</p>
-          <span className={styles.trend}>+12% from last month</span>
+          <div className={styles.cardHeader}>
+            <div className={styles.iconWrapper} style={{ '--icon-color': '#818cf8' } as any}>
+              <Users size={24} />
+            </div>
+            <span className={styles.trend} data-trend="up">
+              <ArrowUpRight size={16} /> 12%
+            </span>
+          </div>
+          <div className={styles.cardContent}>
+            <h3>Total Users</h3>
+            <p className={styles.value}>1,234</p>
+          </div>
         </div>
+
         <div className={styles.card}>
-          <h3>Revenue</h3>
-          <p className={styles.value}>$45,231</p>
-          <span className={styles.trend}>+5% from last month</span>
+          <div className={styles.cardHeader}>
+            <div className={styles.iconWrapper} style={{ '--icon-color': '#34d399' } as any}>
+              <DollarSign size={24} />
+            </div>
+            <span className={styles.trend} data-trend="up">
+              <ArrowUpRight size={16} /> 5%
+            </span>
+          </div>
+          <div className={styles.cardContent}>
+            <h3>Total Revenue</h3>
+            <p className={styles.value}>$45,231</p>
+          </div>
         </div>
+
         <div className={styles.card}>
-          <h3>Active Sessions</h3>
-          <p className={styles.value}>432</p>
-          <span className={styles.trend}>-2% from last month</span>
+          <div className={styles.cardHeader}>
+            <div className={styles.iconWrapper} style={{ '--icon-color': '#f472b6' } as any}>
+              <Activity size={24} />
+            </div>
+            <span className={styles.trend} data-trend="down">
+              <ArrowDownRight size={16} /> 2%
+            </span>
+          </div>
+          <div className={styles.cardContent}>
+            <h3>Active Sessions</h3>
+            <p className={styles.value}>432</p>
+          </div>
         </div>
       </div>
       
