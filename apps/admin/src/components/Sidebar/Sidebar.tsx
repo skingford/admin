@@ -1,11 +1,10 @@
-import { Settings, BarChart, ChevronDown, ChevronRight, Box, Zap, ShoppingBag, Bell, QrCode, MessageSquare, BookOpen, FileText, BarChart2, Repeat, LogOut, ChevronLeft } from 'lucide-react';
+import { Settings, BarChart, ChevronDown, ChevronRight, Box, Zap, ShoppingBag, Bell, QrCode, MessageSquare, BookOpen, FileText, BarChart2, Repeat, LogOut, ChevronLeft, DollarSign } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { useState, useRef, useEffect } from 'react';
 import styles from './Sidebar.module.scss';
 
-// Mock dollar sign since it wasn't imported
-const DollarSign = ({size}: {size: number}) => <span style={{fontSize: size, fontWeight: 'bold'}}>¥</span>;
+
 
 const menuGroups = [
   {
@@ -153,22 +152,30 @@ export default function Sidebar() {
             )}
 
             {/* Floating Submenu (Collapsed Mode) */}
-            {isCollapsed && (group.items && group.items.length > 0) && hoveredGroup === group.title && (
+            {isCollapsed && hoveredGroup === group.title && (
               <div className={clsx(styles.popover, styles.submenuPopover)}>
                 <div className={styles.submenuTitle}>{group.title}</div>
-                <div className={styles.popoverMenu}>
-                  {group.items.map((item) => (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      className={({ isActive }) =>
-                        clsx(styles.navItem, isActive && styles.active)
-                      }
-                    >
-                      <span>{item.label}</span>
-                    </NavLink>
-                  ))}
-                </div>
+                {(group.items && group.items.length > 0) ? (
+                  <div className={styles.popoverMenu}>
+                    {group.items.map((item) => (
+                      <NavLink
+                        key={item.path}
+                        to={item.path}
+                        className={({ isActive }) =>
+                          clsx(styles.navItem, isActive && styles.active)
+                        }
+                      >
+                        <span>{item.label}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.popoverMenu}>
+                    <div className={styles.navItem} style={{color: '#999', cursor: 'default', paddingLeft: '12px'}}>
+                      暂无子菜单
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
