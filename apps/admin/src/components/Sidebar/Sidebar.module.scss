@@ -9,6 +9,63 @@
   position: relative;
   box-shadow: 1px 0 0 0 var(--border);
   z-index: 20;
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1);
+
+  &.collapsed {
+    width: 68px;
+
+    .logo {
+      padding: 0;
+      justify-content: center;
+      
+      span {
+        display: none;
+      }
+      
+      .logoIcon {
+        margin-right: 0;
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .menuTitle {
+      padding: 12px 0;
+      justify-content: center;
+      
+      span, .arrow {
+        display: none;
+      }
+    }
+
+    /* Hide default submenu in collapsed mode */
+    .submenu {
+      display: none;
+    }
+
+    .menuGroup {
+      position: relative;
+    }
+
+    .userButton {
+      padding: 10px 0;
+      justify-content: center;
+      
+      span, .chevron {
+        display: none;
+      }
+      
+      img {
+        margin-right: 0;
+        width: 32px;
+        height: 32px;
+      }
+    }
+    
+    .toggleBtn {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .logo {
@@ -21,11 +78,14 @@
   color: var(--text-title);
   flex-shrink: 0;
   letter-spacing: -0.01em;
+  overflow: hidden;
+  white-space: nowrap;
   
   .logoIcon {
     color: var(--primary);
     margin-right: 10px;
     filter: drop-shadow(0 2px 4px rgba(7, 193, 96, 0.2));
+    transition: all 0.3s;
   }
 }
 
@@ -55,8 +115,9 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
+  transition: all 0.2s;
   user-select: none;
+  white-space: nowrap;
   
   &:hover {
     color: var(--primary);
@@ -66,13 +127,13 @@
   .arrow {
     color: #ccc;
     font-size: 12px;
-    transition: transform var(--duration-normal) var(--ease-out);
+    transition: transform 0.2s;
   }
 }
 
 .submenu {
   overflow: hidden;
-  animation: slideInRight 0.2s var(--ease-out);
+  animation: slideInRight 0.2s ease-out;
 }
 
 .navItem {
@@ -82,9 +143,10 @@
   padding: 9px 24px 9px 48px;
   color: var(--text-secondary);
   font-size: 14px;
-  transition: all var(--duration-fast) var(--ease-out);
+  transition: all 0.2s;
   text-decoration: none;
   position: relative;
+  white-space: nowrap;
 
   &:hover {
     color: var(--text-main);
@@ -124,7 +186,7 @@
   padding: 10px 12px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
+  transition: all 0.2s;
   border: 1px solid transparent;
   
   &:hover {
@@ -142,6 +204,7 @@
     border-radius: 50%;
     margin-right: 12px;
     border: 1px solid var(--border);
+    transition: margin 0.3s;
   }
   
   span {
@@ -157,38 +220,89 @@
   
   .chevron {
     color: var(--text-secondary);
-    transition: transform var(--duration-normal);
+    transition: transform 0.2s;
   }
 }
 
 /* Popover Menu */
 .popover {
   position: absolute;
-  bottom: 12px;
-  left: 256px;
-  width: 260px;
   background: white;
   border-radius: 12px;
   box-shadow: var(--shadow-popover);
-  padding: 24px;
+  padding: 16px;
   z-index: 100;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  animation: fadeIn 0.2s var(--ease-out);
+  animation: fadeIn 0.2s ease-out;
   border: 1px solid rgba(0,0,0,0.04);
   
+  /* Arrow */
   &::before {
     content: '';
     position: absolute;
-    left: -6px;
-    bottom: 34px;
     width: 12px;
     height: 12px;
     background: white;
     transform: rotate(45deg);
     border-left: 1px solid rgba(0,0,0,0.04);
     border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+}
+
+/* User Menu Specifics */
+.userPopover {
+  bottom: 12px;
+  left: 100%;
+  margin-left: 12px;
+  width: 260px;
+  align-items: center;
+  padding: 24px;
+  
+  &::before {
+    left: -6px;
+    bottom: 34px;
+  }
+}
+
+/* Collapsed Submenu Specifics */
+.submenuPopover {
+  left: 100%;
+  top: 0;
+  margin-left: 12px;
+  width: 200px;
+  
+  &::before {
+    left: -6px;
+    top: 20px;
+  }
+  
+  .submenuTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-title);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  
+  .navItem {
+    padding: 10px 12px;
+    border-radius: 6px;
+    
+    &:hover {
+      background: var(--bg-hover);
+      color: var(--primary);
+    }
+    
+    &.active {
+      background: var(--bg-active);
+      color: var(--primary);
+      
+      &::before {
+        display: none; /* Remove left border in popover */
+      }
+    }
   }
 }
 
@@ -224,7 +338,7 @@
   font-size: 14px;
   cursor: pointer;
   border-radius: 6px;
-  transition: all var(--duration-fast);
+  transition: all 0.2s;
   
   &:hover {
     background: var(--bg-hover);
@@ -237,7 +351,7 @@
   
   svg {
     color: var(--text-secondary);
-    transition: color var(--duration-fast);
+    transition: color 0.2s;
   }
 }
 
@@ -247,4 +361,28 @@
   width: 100%;
   margin: 8px 0;
   opacity: 0.6;
+}
+
+.toggleBtn {
+  position: absolute;
+  right: -12px;
+  top: 72px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  z-index: 30;
+  transition: all 0.3s;
+  
+  &:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
 }

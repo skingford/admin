@@ -1,4 +1,4 @@
-import { Home, Settings, Users, BarChart, ChevronDown, ChevronRight, Box, Shield, Zap, ShoppingBag, Bell, QrCode, MessageSquare, BookOpen, FileText, BarChart2, Repeat, LogOut, User } from 'lucide-react';
+import { Settings, BarChart, ChevronDown, ChevronRight, Box, Zap, ShoppingBag, Bell, QrCode, MessageSquare, BookOpen, FileText, BarChart2, Repeat, LogOut, ChevronLeft } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import { useState, useRef, useEffect } from 'react';
@@ -73,9 +73,12 @@ const menuGroups = [
 export default function Sidebar() {
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['开发与服务']);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   const toggleGroup = (title: string) => {
+    if (isCollapsed) return;
     setExpandedGroups(prev => 
       prev.includes(title) 
         ? prev.filter(t => t !== title)
@@ -95,7 +98,15 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={clsx(styles.sidebar, isCollapsed && styles.collapsed)}>
+      <div 
+        className={styles.toggleBtn}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        title={isCollapsed ? "展开侧边栏" : "收起侧边栏"}
+      >
+        <ChevronLeft size={16} />
+      </div>
+
       <div className={styles.logo}>
         <Box className={styles.logoIcon} size={24} />
         <span>小程序</span>
@@ -103,7 +114,12 @@ export default function Sidebar() {
       
       <nav className={styles.nav}>
         {menuGroups.map((group) => (
-          <div key={group.title} className={styles.menuGroup}>
+          <div 
+            key={group.title} 
+            className={styles.menuGroup}
+            onMouseEnter={() => isCollapsed && setHoveredGroup(group.title)}
+            onMouseLeave={() => isCollapsed && setHoveredGroup(null)}
+          >
             <div 
               className={styles.menuTitle} 
               onClick={() => toggleGroup(group.title)}
@@ -119,7 +135,8 @@ export default function Sidebar() {
               )}
             </div>
             
-            {(group.items && group.items.length > 0) && expandedGroups.includes(group.title) && (
+            {/* Normal Submenu (Expanded Mode) */}
+            {!isCollapsed && (group.items && group.items.length > 0) && expandedGroups.includes(group.title) && (
               <div className={styles.submenu}>
                 {group.items.map((item) => (
                   <NavLink
@@ -132,6 +149,26 @@ export default function Sidebar() {
                     <span>{item.label}</span>
                   </NavLink>
                 ))}
+              </div>
+            )}
+
+            {/* Floating Submenu (Collapsed Mode) */}
+            {isCollapsed && (group.items && group.items.length > 0) && hoveredGroup === group.title && (
+              <div className={clsx(styles.popover, styles.submenuPopover)}>
+                <div className={styles.submenuTitle}>{group.title}</div>
+                <div className={styles.popoverMenu}>
+                  {group.items.map((item) => (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      className={({ isActive }) =>
+                        clsx(styles.navItem, isActive && styles.active)
+                      }
+                    >
+                      <span>{item.label}</span>
+                    </NavLink>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -150,7 +187,7 @@ export default function Sidebar() {
         </div>
 
         {showUserMenu && (
-          <div className={styles.popover}>
+          <div className={clsx(styles.popover, styles.userPopover)}>
             <img className={styles.popoverAvatar} src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
             <div className={styles.popoverName}>寻微便民寄存</div>
             
