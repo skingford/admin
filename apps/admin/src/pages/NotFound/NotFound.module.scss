@@ -1,0 +1,134 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.6s var(--ease-out);
+}
+
+/* Background Decoration */
+.bgDecoration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 240px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.03);
+  z-index: 0;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: 20px;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.iconWrapper {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 2px dashed rgba(0, 0, 0, 0.05);
+    animation: spin 20s linear infinite;
+  }
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  color: var(--primary);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-title);
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  max-width: 460px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s var(--ease-out);
+  cursor: pointer;
+  
+  &.primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(7, 193, 96, 0.25);
+    
+    &:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(7, 193, 96, 0.35);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  &.secondary {
+    background-color: white;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    
+    &:hover {
+      background-color: var(--bg-hover);
+      border-color: #dcdcdc;
+      color: var(--primary);
+    }
+    
+    &:active {
+      background-color: #f0f0f0;
+    }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

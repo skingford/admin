@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
           <Route path="users" element={<div>Users Page</div>} />
           <Route path="analytics" element={<div>Analytics Page</div>} />
           <Route path="settings" element={<div>Settings Page</div>} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
