@@ -3,6 +3,7 @@ import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import NotFound from './pages/NotFound/NotFound';
 import Login from './pages/Login/Login';
+import DataOverview from './pages/DataOverview/DataOverview';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path="data/overview" element={<DataOverview />} />
           <Route path="users" element={<div>Users Page</div>} />
           <Route path="analytics" element={<div>Analytics Page</div>} />
           <Route path="settings" element={<div>Settings Page</div>} />

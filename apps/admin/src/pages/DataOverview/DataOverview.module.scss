@@ -1,0 +1,157 @@
+.container {
+  animation: fadeIn 0.4s var(--ease-out);
+  max-width: 100%;
+}
+
+.pageHeader {
+  margin-bottom: 24px;
+  
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-title);
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .statHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    
+    .iconWrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &.green { background: rgba(7, 193, 96, 0.1); color: var(--primary); }
+      &.blue { background: rgba(45, 140, 240, 0.1); color: #2d8cf0; }
+      &.purple { background: rgba(114, 101, 230, 0.1); color: #7265e6; }
+      &.orange { background: rgba(255, 147, 38, 0.1); color: #ff9326; }
+    }
+  }
+  
+  .statLabel {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  
+  .statValue {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-title);
+    margin-bottom: 8px;
+    font-family: 'DIN Alternate', 'Roboto', sans-serif;
+  }
+  
+  .statTrend {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    
+    &.up { color: #fa5151; } /* Red for up in finance usually, or green depending on context. Let's use Red for 'hot/up' like stocks in China or Green for positive? WeChat uses Green for primary. Let's stick to standard: Green = Good (Growth), Red = Bad (Decline) OR Red = Up (China stock). Let's use Green for Up to match brand. */
+    &.up { color: var(--primary); }
+    &.down { color: #fa5151; }
+  }
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.chartCard {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0,0,0,0.02);
+  
+  &.fullWidth {
+    grid-column: span 2;
+  }
+  
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-title);
+      display: flex;
+      align-items: center;
+      
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 16px;
+        background: var(--primary);
+        margin-right: 12px;
+        border-radius: 2px;
+      }
+    }
+  }
+}
+
+.timeFilter {
+  display: flex;
+  background: #f5f7fa;
+  border-radius: 4px;
+  padding: 2px;
+  
+  button {
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-radius: 2px;
+    transition: all 0.2s;
+    
+    &.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      font-weight: 500;
+    }
+    
+    &:hover:not(.active) {
+      color: var(--text-main);
+    }
+  }
+}
