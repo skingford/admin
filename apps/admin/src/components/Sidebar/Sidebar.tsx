@@ -1,35 +1,195 @@
-import { Home, Settings, Users, BarChart } from 'lucide-react';
+import { Home, Settings, Users, BarChart, ChevronDown, ChevronRight, Box, Shield, Zap, ShoppingBag, Bell, QrCode, MessageSquare, BookOpen, FileText, BarChart2, Repeat, LogOut, User } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
+import { useState, useRef, useEffect } from 'react';
 import styles from './Sidebar.module.scss';
 
-const navItems = [
-  { icon: Home, label: 'Dashboard', path: '/' },
-  { icon: Users, label: 'Users', path: '/users' },
-  { icon: BarChart, label: 'Analytics', path: '/analytics' },
-  { icon: Settings, label: 'Settings', path: '/settings' },
+// Mock dollar sign since it wasn't imported
+const DollarSign = ({size}: {size: number}) => <span style={{fontSize: size, fontWeight: 'bold'}}>¥</span>;
+
+const menuGroups = [
+  {
+    title: '小程序',
+    icon: Box,
+    items: [
+      { label: '版本管理', path: '/version' },
+      { label: '交易保障', path: '/trade' },
+      { label: '物流服务', path: '/logistics' },
+    ]
+  },
+  {
+    title: '数据',
+    icon: BarChart2,
+    items: []
+  },
+  {
+    title: '基础功能',
+    icon: Box,
+    items: []
+  },
+  {
+    title: '支付与交易',
+    icon: DollarSign,
+    items: []
+  },
+  {
+    title: '行业能力',
+    icon: Zap,
+    items: []
+  },
+  {
+    title: '推广与搜索',
+    icon: ShoppingBag,
+    items: []
+  },
+  {
+    title: '开发与服务',
+    icon: Settings,
+    expanded: true,
+    items: [
+      { label: '开发管理', path: '/' },
+      { label: '开发工具', path: '/tools' },
+      { label: '云服务', path: '/cloud' },
+      { label: '服务市场', path: '/market' },
+    ]
+  },
+  {
+    title: '成长',
+    icon: BarChart,
+    items: []
+  },
+  {
+    title: '小程序码',
+    icon: QrCode,
+    items: []
+  },
+  {
+    title: '通知中心',
+    icon: Bell,
+    items: []
+  }
 ];
 
 export default function Sidebar() {
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(['开发与服务']);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  const toggleGroup = (title: string) => {
+    setExpandedGroups(prev => 
+      prev.includes(title) 
+        ? prev.filter(t => t !== title)
+        : [...prev, title]
+    );
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
-        <span>Admin</span>Pro
+        <Box className={styles.logoIcon} size={24} />
+        <span>小程序</span>
       </div>
+      
       <nav className={styles.nav}>
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              clsx(styles.navItem, isActive && styles.active)
-            }
-          >
-            <item.icon size={20} />
-            <span>{item.label}</span>
-          </NavLink>
+        {menuGroups.map((group) => (
+          <div key={group.title} className={styles.menuGroup}>
+            <div 
+              className={styles.menuTitle} 
+              onClick={() => toggleGroup(group.title)}
+            >
+              <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                <group.icon size={16} />
+                <span>{group.title}</span>
+              </div>
+              {(group.items && group.items.length > 0) && (
+                <span className={styles.arrow}>
+                  {expandedGroups.includes(group.title) ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                </span>
+              )}
+            </div>
+            
+            {(group.items && group.items.length > 0) && expandedGroups.includes(group.title) && (
+              <div className={styles.submenu}>
+                {group.items.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      clsx(styles.navItem, isActive && styles.active)
+                    }
+                  >
+                    <span>{item.label}</span>
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
       </nav>
+
+      <div className={styles.userSection} ref={userMenuRef}>
+        <div 
+          className={styles.userButton} 
+          onClick={() => setShowUserMenu(!showUserMenu)}
+          style={{background: showUserMenu ? '#f5f5f5' : 'transparent'}}
+        >
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
+          <span>寻微便民寄存</span>
+          <ChevronRight size={14} className={styles.chevron} />
+        </div>
+
+        {showUserMenu && (
+          <div className={styles.popover}>
+            <img className={styles.popoverAvatar} src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
+            <div className={styles.popoverName}>寻微便民寄存</div>
+            
+            <div className={styles.popoverMenu}>
+              <div className={styles.popoverItem}>
+                <Settings size={18} />
+                <span>账号设置</span>
+              </div>
+              <div className={styles.popoverItem}>
+                <MessageSquare size={18} />
+                <span>交流专区</span>
+              </div>
+              <div className={styles.popoverItem}>
+                <BookOpen size={18} />
+                <span>微信学堂</span>
+              </div>
+              <div className={styles.popoverItem}>
+                <FileText size={18} />
+                <span>官方文档</span>
+              </div>
+              <div className={styles.popoverItem}>
+                <BarChart2 size={18} />
+                <span>We 分析</span>
+              </div>
+              
+              <div className={styles.divider}></div>
+              
+              <div className={styles.popoverItem}>
+                <Repeat size={18} />
+                <span>切换账号</span>
+              </div>
+              <div className={styles.popoverItem}>
+                <LogOut size={18} />
+                <span>退出登录</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </aside>
   );
 }

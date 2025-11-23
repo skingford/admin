@@ -1,85 +1,72 @@
-import { Users, DollarSign, Activity, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { useState } from 'react';
+import clsx from 'clsx';
+import { HelpCircle } from 'lucide-react';
 import styles from './Dashboard.module.scss';
 
+const tabs = ['开发设置', '接口设置', '安全中心', '微信网关'];
+
 export default function Dashboard() {
+  const [activeTab, setActiveTab] = useState('开发设置');
+
   return (
-    <div className={styles.dashboard}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Dashboard Overview</h1>
-        <p className={styles.subtitle}>Welcome back, here's what's happening today.</p>
-      </div>
-      
-      <div className={styles.grid}>
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <div className={styles.iconWrapper} style={{ '--icon-color': '#818cf8' } as any}>
-              <Users size={24} />
+    <div className={styles.container}>
+      <div className={styles.pageHeader}>
+        <h1>开发管理</h1>
+        <div className={styles.tabs}>
+          {tabs.map(tab => (
+            <div 
+              key={tab} 
+              className={clsx(styles.tab, activeTab === tab && styles.active)}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
             </div>
-            <span className={styles.trend} data-trend="up">
-              <ArrowUpRight size={16} /> 12%
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.card}>
+        <h2 className={styles.cardTitle}>开发者ID</h2>
+        
+        <div className={styles.infoBlock}>
+          <span className={styles.label}>开发者ID</span>
+          <span className={styles.action}>操作</span>
+        </div>
+
+        <div className={styles.infoRow}>
+          <span className={styles.label}>AppID(小程序ID)</span>
+          <span className={styles.value}>wxfd2a3c0e318e4e5a</span>
+        </div>
+
+        <div className={styles.infoRow}>
+          <span className={styles.label}>AppSecret(小程序密钥)</span>
+          <span className={styles.value}></span>
+          <div style={{display: 'flex', gap: '16px'}}>
+            <span className={styles.action}>重置</span>
+            <span className={styles.action} style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+              <HelpCircle size={14} /> 冻结
             </span>
-          </div>
-          <div className={styles.cardContent}>
-            <h3>Total Users</h3>
-            <p className={styles.value}>1,234</p>
           </div>
         </div>
 
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <div className={styles.iconWrapper} style={{ '--icon-color': '#34d399' } as any}>
-              <DollarSign size={24} />
-            </div>
-            <span className={styles.trend} data-trend="up">
-              <ArrowUpRight size={16} /> 5%
-            </span>
-          </div>
-          <div className={styles.cardContent}>
-            <h3>Total Revenue</h3>
-            <p className={styles.value}>$45,231</p>
-          </div>
-        </div>
-
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <div className={styles.iconWrapper} style={{ '--icon-color': '#f472b6' } as any}>
-              <Activity size={24} />
-            </div>
-            <span className={styles.trend} data-trend="down">
-              <ArrowDownRight size={16} /> 2%
-            </span>
-          </div>
-          <div className={styles.cardContent}>
-            <h3>Active Sessions</h3>
-            <p className={styles.value}>432</p>
-          </div>
+        <div className={styles.infoRow} style={{borderBottom: 'none', paddingTop: '24px'}}>
+          <span className={styles.label}>IP白名单</span>
+          <span className={styles.value} style={{textAlign: 'right', paddingRight: '16px', color: '#999'}}>
+            未开启ip白名单保护
+          </span>
+          <label className={styles.switch}>
+            <input type="checkbox" />
+            <span className={styles.slider}></span>
+          </label>
         </div>
       </div>
-      
-      <div className={styles.section}>
-        <h2>Recent Activity</h2>
-        <div className={styles.tableCard}>
-          <table>
-            <thead>
-              <tr>
-                <th>User</th>
-                <th>Action</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[1, 2, 3, 4, 5].map((i) => (
-                <tr key={i}>
-                  <td>User {i}</td>
-                  <td>Logged in</td>
-                  <td>2023-10-{10+i}</td>
-                  <td><span className={styles.status}>Completed</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+      <div className={styles.card}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+          <h2 className={styles.cardTitle} style={{marginBottom: 0}}>小程序代码上传</h2>
+          <span className={styles.action}>查看详情</span>
         </div>
+        <p style={{color: '#9a9a9a', fontSize: '14px'}}>开发者可基于配置信息调用微信开发者工具提供的代码上传模块。</p>
       </div>
     </div>
   );
