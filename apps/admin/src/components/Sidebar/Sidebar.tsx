@@ -182,10 +182,15 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className={styles.userSection} ref={userMenuRef}>
+      <div 
+        className={styles.userSection} 
+        ref={userMenuRef}
+        onMouseEnter={() => isCollapsed && setShowUserMenu(true)}
+        onMouseLeave={() => isCollapsed && setShowUserMenu(false)}
+      >
         <div 
           className={styles.userButton} 
-          onClick={() => setShowUserMenu(!showUserMenu)}
+          onClick={() => !isCollapsed && setShowUserMenu(!showUserMenu)}
           style={{background: showUserMenu ? '#f5f5f5' : 'transparent'}}
         >
           <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />

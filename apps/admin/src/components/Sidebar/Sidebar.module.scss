@@ -248,6 +248,18 @@
     border-left: 1px solid rgba(0,0,0,0.04);
     border-bottom: 1px solid rgba(0,0,0,0.04);
   }
+
+  /* Invisible bridge to prevent closing when moving mouse from sidebar to popover */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -20px; /* Cover the gap */
+    width: 20px;
+    background: transparent;
+    z-index: -1;
+  }
 }
 
 /* User Menu Specifics */
