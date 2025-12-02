@@ -1,8 +1,14 @@
 .layout {
   display: flex;
+  flex-direction: column; /* Header on top, body below */
   height: 100vh;
   overflow: hidden;
   background-color: var(--bg-body);
+}
+
+.body {
+  display: flex;
+  flex: 1; /* Fill remaining space */
 }
 
 .mainContent {
